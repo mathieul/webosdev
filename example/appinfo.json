@@ -1,0 +1,9 @@
+{
+	"id": "com.zlaj.freya",
+	"version": "1.0.0",
+	"vendor": "Zlaj, inc.",
+	"type": "web",
+	"main": "index.html",
+	"title": "Freya",
+	"icon": "icon.png"
+}

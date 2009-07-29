@@ -1,0 +1,67 @@
+%w(rubygems haml sass fileutils json).each { |mod| require mod }
+
+DIRECTORIES = {:haml => %w(. ./app/*/*), :sass => %w(./stylesheets)}
+EXTENSIONS = {:haml => 'html', :sass => 'css'}
+
+namespace :palm do
+  desc "package the application"
+  task :package => [:render_haml, :render_sass] do
+    sh "/opt/PalmSDK/0.1/bin/palm-package ."
+    FileUtils.rm_f(files_with_format(:haml, :generated => true))
+    FileUtils.rm_f(files_with_format(:sass, :generated => true))
+    puts "Done."
+  end
+  
+  task :install do
+    sh "/opt/PalmSDK/0.1/bin/palm-install #{ipk_name}"
+    sh "/opt/PalmSDK/0.1/bin/palm-launch #{app_name}"
+    puts "Application installed and started."
+  end
+  
+  task :render_haml do
+    files_with_format(:haml).each do |name|
+      engine = Haml::Engine.new(File.read(name))
+      content = engine.render
+      File.open(generated_name(name), "w") { |file| file.write(content) }
+    end
+    puts "Rendered HTML files."
+  end
+
+  task :render_sass do
+    files_with_format(:sass).each do |name|
+      engine = Sass::Engine.new(File.read(name))
+      content = engine.render
+      File.open(generated_name(name), "w") { |file| file.write(content) }
+    end
+    puts "Rendered CSS files."
+  end
+
+  def files_with_format(extension, options = {})
+    raise "Unknown extension" unless DIRECTORIES[extension]
+    DIRECTORIES[extension].map do |directory|
+      files = Dir["#{directory}/*.#{extension}"]
+      files.map! {|name| name.sub(/\.#{extension}$/, ".#{EXTENSIONS[extension]}") } if options[:generated]
+      files
+    end.flatten.compact
+  end
+  
+  def generated_name(name)
+    match = /^(.*)\.([^.]+)/.match name
+    return nil unless match
+    ext = EXTENSIONS[match[2].to_sym]
+    return nil unless ext
+    "#{match[1]}.#{ext}"
+  end
+  
+  def ipk_name
+    "#{appinfo['id']}_#{appinfo['version']}_all.ipk"
+  end
+
+  def app_name
+    @app_name ||= "#{appinfo['id']}"
+  end
+
+  def appinfo
+    @appinfo ||= JSON.load(File.read("./appinfo.json"))
+  end  
+end
