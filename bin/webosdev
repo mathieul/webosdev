@@ -5,7 +5,11 @@
 
 require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/../lib/webosdev")
-require "webosdev/palm_tools"
+require "webosdev/palm_manager"
 require "webosdev/cli"
 
-Webosdev::CLI.execute(STDOUT, ARGV)
+begin
+  Webosdev::CLI.execute(STDOUT, ARGV)
+rescue PalmManager::Error, OptionParser::ParseError => ex
+  STDERR.puts "#{ex.message} (#{ex.class})."
+end
