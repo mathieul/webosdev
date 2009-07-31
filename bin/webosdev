@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+#
+#  Created on 2009-7-31.
+#  Copyright (c) 2009. All rights reserved.
+
+require 'rubygems'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/webosdev")
+require "webosdev/palm_tools"
+require "webosdev/cli"
+
+Webosdev::CLI.execute(STDOUT, ARGV)
