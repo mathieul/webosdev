@@ -13,3 +13,6 @@ webosdev_generators/application/templates/icon.png
 webosdev_generators/application/templates/index.haml
 webosdev_generators/application/templates/sources.json
 webosdev_generators/application/templates/stylesheets/application.sass
+webosdev_generators/scene/scene_generator.rb
+webosdev_generators/scene/templates/app/assistants/name-assistant.js
+webosdev_generators/scene/templates/app/views/name/name-scene.haml

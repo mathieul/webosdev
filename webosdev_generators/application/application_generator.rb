@@ -3,8 +3,6 @@ class ApplicationGenerator < RubiGen::Base
   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                               Config::CONFIG['ruby_install_name'])
 
-  default_options :author => nil
-
   attr_reader :application_name, :application_id, :application_vendor
 
   def initialize(runtime_args, runtime_options = {})
@@ -24,9 +22,9 @@ class ApplicationGenerator < RubiGen::Base
       m.file_copy_each %w(app/assistants/stage-assistant.js icon.png sources.json)
       m.template_copy_each %w(appinfo.json index.haml)
       m.template "stylesheets/application.sass", "stylesheets/#{application_name}.sass"
-
-      m.dependency "install_rubigen_scripts", [destination_root, 'application'],
-        :shebang => options[:shebang], :collision => :force
+      # 
+      # m.dependency "install_rubigen_scripts", [destination_root, 'application'],
+      #   :shebang => options[:shebang], :collision => :force
     end
   end
 

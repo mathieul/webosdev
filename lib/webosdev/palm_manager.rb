@@ -4,7 +4,8 @@ class PalmManager
   DIRECTORIES = {:haml => %w(. ./app/*/*), :sass => %w(./stylesheets)}
   EXTENSIONS = {:haml => 'html', :sass => 'css'}
   APPINFO_FILE = './appinfo.json'
-  COMMANDS = %w(application new_scene package install novacom)
+  GENERATOR_DIR = File.join(File.dirname(__FILE__), "../../webosdev_generators")
+  COMMANDS = %w(application scene package install novacom)
 
   Error = Class.new(RuntimeError)
   FileNotFoundError = Class.new(Error)
@@ -29,13 +30,23 @@ class PalmManager
   end
   
   def application(opts)
+    raise ArgumentError, "Missing application name" unless opts[:name]
     vendor = opts[:vendor].split(' ')[0].downcase rescue 'vendor'
     require 'rubigen'
     require 'rubigen/scripts/generate'
-    source = RubiGen::PathSource.new(:application, File.join(File.dirname(__FILE__), "../../webosdev_generators"))
+    source = RubiGen::PathSource.new(:application, GENERATOR_DIR)
     RubiGen::Base.reset_sources
     RubiGen::Base.append_sources source
-    RubiGen::Scripts::Generate.new.run(['-e', opts[:vendor], opts[:application]], :generator => 'application')
+    RubiGen::Scripts::Generate.new.run(['-e', opts[:vendor], opts[:name]], :generator => 'application')
+  end
+
+  def scene(opts)
+    require 'rubigen'
+    require 'rubigen/scripts/generate'
+    source = RubiGen::PathSource.new(:scene, GENERATOR_DIR)
+    RubiGen::Base.reset_sources
+    RubiGen::Base.append_sources source
+    RubiGen::Scripts::Generate.new.run([opts[:name]], :generator => 'scene')
   end
 
   def package(opts)
