@@ -19,8 +19,9 @@ module Webosdev
         opts.separator ""
         opts.on("-a", "--application NAME", String,
                 "Name of the application.") { |name| options[:application] = name }
-        opts.on("-c", "--command COMMAND", String, PalmManager::COMMANDS,
-                "Command to run.") { |command| options[:command] = command }
+        commands = PalmManager::COMMANDS
+        opts.on("-c", "--command COMMAND", String, commands,
+                "Command to run (#{commands.join(", ")}).") { |command| options[:command] = command }
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; exit }
         opts.parse!(arguments)

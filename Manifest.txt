@@ -1,14 +1,8 @@
 History.txt
 Manifest.txt
-PostInstall.txt
 README.rdoc
 Rakefile
 bin/webosdev
 lib/webosdev.rb
 lib/webosdev/cli.rb
-script/console
-script/destroy
-script/generate
-test/test_helper.rb
-test/test_webosdev.rb
-test/test_webosdev_cli.rb
+lib/webosdev/palm_manager.rb
