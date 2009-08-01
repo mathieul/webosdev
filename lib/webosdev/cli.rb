@@ -2,8 +2,6 @@ require 'optparse'
 
 module Webosdev
   class CLI
-    COMMANDS = %w(new_app new_scene package install)
-
     def self.execute(stdout, arguments=[])
       options = {
       }
@@ -21,7 +19,7 @@ module Webosdev
         opts.separator ""
         opts.on("-a", "--application NAME", String,
                 "Name of the application.") { |name| options[:application] = name }
-        opts.on("-c", "--command COMMAND", String, COMMANDS,
+        opts.on("-c", "--command COMMAND", String, PalmManager::COMMANDS,
                 "Command to run.") { |command| options[:command] = command }
         opts.on("-h", "--help",
                 "Show this help message.") { stdout.puts opts; exit }
