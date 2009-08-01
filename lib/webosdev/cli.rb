@@ -19,6 +19,8 @@ module Webosdev
         opts.separator ""
         opts.on("-a", "--application NAME", String,
                 "Name of the application.") { |name| options[:application] = name }
+        opts.on("-v", "--vendor NAME", String,
+                "Name of the vendor.") { |name| options[:vendor] = name }
         commands = PalmManager::COMMANDS
         opts.on("-c", "--command COMMAND", String, commands,
                 "Command to run (#{commands.join(", ")}).") { |command| options[:command] = command }
@@ -33,7 +35,6 @@ module Webosdev
       end
       
       manager = PalmManager.new
-      options[:application] ||= manager.application_name
       raise PalmManager::ArgumentError, "Missing application name" unless options[:application]
       message = manager.send(options[:command].to_sym, options)
       stdout.puts "#{message}."

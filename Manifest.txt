@@ -6,3 +6,10 @@ bin/webosdev
 lib/webosdev.rb
 lib/webosdev/cli.rb
 lib/webosdev/palm_manager.rb
+webosdev_generators/application/application_generator.rb
+webosdev_generators/application/templates/app/assistants/stage-assistant.js
+webosdev_generators/application/templates/appinfo.json
+webosdev_generators/application/templates/icon.png
+webosdev_generators/application/templates/index.haml
+webosdev_generators/application/templates/sources.json
+webosdev_generators/application/templates/stylesheets/application.sass

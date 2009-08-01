@@ -1,0 +1,9 @@
+{
+	"id": "<%= application_id %>",
+	"version": "1.0.0",
+	"vendor": "<%= application_vendor %>",
+	"type": "web",
+	"main": "index.html",
+	"title": "<%= application_name %>",
+	"icon": "icon.png"
+}

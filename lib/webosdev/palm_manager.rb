@@ -4,7 +4,7 @@ class PalmManager
   DIRECTORIES = {:haml => %w(. ./app/*/*), :sass => %w(./stylesheets)}
   EXTENSIONS = {:haml => 'html', :sass => 'css'}
   APPINFO_FILE = './appinfo.json'
-  COMMANDS = %w(new_app new_scene package install novacom)
+  COMMANDS = %w(application new_scene package install novacom)
 
   Error = Class.new(RuntimeError)
   FileNotFoundError = Class.new(Error)
@@ -27,11 +27,15 @@ class PalmManager
     raise FileNotFoundError, "Can't find file #{APPINFO_FILE.inspect}" unless FileTest.exists?(APPINFO_FILE)
     @application_info ||= JSON.load(File.read(APPINFO_FILE))
   end
-
-  def new_app(opts)
-    res = %x(palm-generate #{opts[:application]} 2>&1)
-    raise ExecutionError, res unless $?.success?
-    "New application #{opts[:application].inspect} was created successfully"
+  
+  def application(opts)
+    vendor = opts[:vendor].split(' ')[0].downcase rescue 'vendor'
+    require 'rubigen'
+    require 'rubigen/scripts/generate'
+    source = RubiGen::PathSource.new(:application, File.join(File.dirname(__FILE__), "../../webosdev_generators"))
+    RubiGen::Base.reset_sources
+    RubiGen::Base.append_sources source
+    RubiGen::Scripts::Generate.new.run(['-e', opts[:vendor], opts[:application]], :generator => 'application')
   end
 
   def package(opts)

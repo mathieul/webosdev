@@ -1,0 +1,14 @@
+!!! XML
+!!! 1.1
+%html{ "xml:lang" => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %title
+      Freya
+    %script{:src => "/usr/palm/frameworks/mojo/mojo.js", :type => "text/javascript", "x-mojo-version" => "1"}
+    / application stylesheet should come in after the one loaded by the framework
+    %link{:href => "stylesheet/<%= application_name.downcase %>.css", :media => "screen", :rel => "stylesheet", :type =>"text/css"}
+  
+  %body
+    %h2 This text verifies your application is running.
+    %p
+      To create a fully functional Palm application create a scene and remove this text from index.html. See the documentation on Palm Applications for more information on creating applications and scenes.
